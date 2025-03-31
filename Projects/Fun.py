@@ -1,11 +1,13 @@
 import random
-Number = random.randint(1, 100)
-
+Number = random.randint(1, 10)
 
 def BigRedHippo():
 
-    print("Type A Number Between 1, 100")
+    Guess = input
 
-    print(Number)
-
+    while True:
+        Number = Guess("Guess What Number")
+    elif:
+        Number > Guess print(f"higher")
+    
 BigRedHippo()
