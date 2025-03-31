@@ -48,7 +48,6 @@ else:
     elif answer.lower() == "b":
         dog_points += 1
 
-
 # Question 4,
 
 answer = input("Do You Have, A) A Dog, B) A Cat, C) Both or D) None?\n")
