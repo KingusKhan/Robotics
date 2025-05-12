@@ -15,6 +15,8 @@ def create_sprite(image_filename, x=0, y=0):
     sprite.penup()
     sprite.goto(x,y)
     return sprite
+window = turtle.Screen()
+window.setup(width=1200, height=700)
 
 
 # Section 2 - Variables
@@ -27,6 +29,7 @@ y3 = 0
 x4 = -200
 y4 = -100
 
+Money = 30
 
 # Section 3 - Setup
 set_background("track")
@@ -38,10 +41,10 @@ t4 = create_sprite("dark_horse",x4,y4)
 
 # Section 4 - Racing
 for i in range(30):
-    x1 += random.randint(1 + i,2 + i)
-    x2 += random.randint(5,20)
-    x3 += 13
-    x4 += random.randint(10,15)
+    x1 += random.randint(3,7+i)
+    x2 += random.randint(3,25)
+    x3 += random.randint(1,29)
+    x4 += random.randint(0,30)
     
     t1.goto(x1, y1)
     t2.goto(x2, y2)
