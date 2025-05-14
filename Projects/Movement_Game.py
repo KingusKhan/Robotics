@@ -3,9 +3,9 @@ import turtle, math, time, random
 def set_background(image_filename):
 	screen = turtle.Screen()
 	try:
-    	screen.bgpic(f"/workspaces/Computational-Thinking-8/Backgrounds/{image_filename}.png")
+		screen.bgpic(f"/workspaces/Computational-Thinking-8/Backgrounds/{image_filename}.png")
 	except:
-    	screen.bgpic(f"/workspaces/Computational-Thinking-8/Backgrounds/{image_filename}.gif")
+		screen.bgpic(f"/workspaces/Computational-Thinking-8/Backgrounds/{image_filename}.gif")
 def set_image(sprite, image_filename):
 	image_file = f"/workspaces/Computational-Thinking-8/Images/{image_filename}.gif"
 	screen = turtle.Screen()
@@ -25,30 +25,29 @@ window = turtle.Screen()
 window.tracer(0)
 
 # Section 2: Setup
-s1 = create_sprite("harry",-150,150)
-s2 = create_sprite("bad (1)"-150,-150)
+s1 = create_sprite("harry", -150,150)
+s2 = create_sprite("bad (1)", -150,-150)
+s3 = create_sprite("golden-snitch", 150,0)
 
-set_background("pitch")
+set_background("pitch (1)")
 
-time = 0
-	
-speed = 10
+speed = 5
 
 # Section 3: Controls
-def moveup():
+def move_up():
 	s1.setheading(90)
 	s1.forward(speed)
 
-def moveleft():
+def move_left():
 	s1.setheading(180)
 	s1.forward(speed)
 
-def movedown():
+def move_down():
 	s1.setheading(270)
 	s1.forward(speed)
 
-def moveright():
-	s1.setheading(270)
+def move_right():
+	s1.setheading(0)
 	s1.forward(speed)
 
 def reset():
@@ -56,19 +55,19 @@ def reset():
 	s1.goto(-150,-150)
 
 def turbo():
-	speed +=5
+	speed +=2
 	s1.write("Turbo",font = ("Arial", 40, "norma;"))
 
 def slow():
-	speed -=5
+	speed -=2
 
-window.onkeypress(moveup, "w")
-window.onkeypress(moveleft, "a")
-window.onkeypress(movedown, "s")
-window.onkeypress(moveright, "d")
+window.onkeypress(move_up, "w")
+window.onkeypress(move_left, "a")
+window.onkeypress(move_down, "s")
+window.onkeypress(move_right, "d")
 window.onkeypress(reset, "r")
-window.onkeypress(turbo, "e")
-window.onkeyrelease(slow, "e")
+window.onkeypress(turbo, "1")
+window.onkeypress(slow, "2")
 
 # Section 4: Game Loop
 window.listen()
@@ -76,19 +75,38 @@ timer = 0
 while True:
 	time.sleep(0.1)
 	timer += 1  
-	 
-    
- 	# TODO - code for automatic actions
+
+	#s2.setheading(s2.towards(s1))
+	#s2.forward(3)
+
+	if timer % 10 == 0:
+		s3.setheading(random.randint(0, 360))
+
+	s3.forward(10)
 
 
+	x, y = s3.xcor(), s3.ycor()
+	if abs(x) > 300 or abs(y) > 225:
+		s3.setheading(s3.towards(0, 0))
+
+	
 
 
 
 
 	window.update()
 
-	# if :
-	# 	break
+	if get_distance(s1,s3) < 20:
+		s1.write("You Win!", font = ("Arial", 40, "normal"))
+		s2.hideturtle()
+		break
+
+	elif get_distance(s2,s3) < 20:
+		s2.write("You Lose!", font = ("Arial", 40, "normal"))
+		s1.hideturtle()
+		break
 	
+	elif timer == 60:
+		s3.write("You Lose!", font = ("Arial", 40, "normal"))
 
 print("Game Over")
