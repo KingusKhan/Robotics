@@ -25,88 +25,94 @@ window = turtle.Screen()
 window.tracer(0)
 
 # Section 2: Setup
-s1 = create_sprite("harry", -150,150)
-s2 = create_sprite("bad (1)", -150,-150)
-s3 = create_sprite("golden-snitch", 150,0)
+s1 = create_sprite("harry", -250, 0)
+s2 = create_sprite("bad (1)", 250, 0)
 
 set_background("pitch (1)")
 
-speed = 5
+lives = 3
+s = 7
+b = 4
+score = 0
 
 # Section 3: Controls
 def move_up():
 	s1.setheading(90)
-	s1.forward(speed)
-
-def move_left():
-	s1.setheading(180)
-	s1.forward(speed)
+	s1.forward(s)
 
 def move_down():
 	s1.setheading(270)
-	s1.forward(speed)
+	s1.forward(s)
 
 def move_right():
+	s1.setheading(180)
+	s1.forward(s)
+
+def move_left():
 	s1.setheading(0)
-	s1.forward(speed)
+	s1.forward(s)
 
-def reset():
-	s1.goto(-150,150)
-	s1.goto(-150,-150)
+def cheat():
+	s1.goto(-250,0)
 
-def turbo():
-	speed +=2
-	s1.write("Turbo",font = ("Arial", 40, "norma;"))
+def dash():
+	s1.hideturtle()
+	s1.forward(60)
+	s1.showturtle
 
-def slow():
-	speed -=2
-
-window.onkeypress(move_up, "w")
+# Key Binds
 window.onkeypress(move_left, "a")
-window.onkeypress(move_down, "s")
 window.onkeypress(move_right, "d")
-window.onkeypress(reset, "r")
-window.onkeypress(turbo, "1")
-window.onkeypress(slow, "2")
+window.onkeypress(move_up, "w")
+window.onkeypress(move_down, "s")
+window.onkeypress(cheat, "r")
+window.onkeypress(dash, "v")
 
 # Section 4: Game Loop
 window.listen()
 timer = 0
+obstacles = []
 while True:
 	time.sleep(0.1)
 	timer += 1  
-
-	#s2.setheading(s2.towards(s1))
-	#s2.forward(3)
-
-	if timer % 10 == 0:
-		s3.setheading(random.randint(0, 360))
-
-	s3.forward(10)
-
-
-	x, y = s3.xcor(), s3.ycor()
-	if abs(x) > 300 or abs(y) > 225:
-		s3.setheading(s3.towards(0, 0))
-
 	
+	s2.setheading(math.atan2((s1.ycor()-s2.ycor()),(s1.xcor() - s1.ycor())))
+	s2.forward(b)
 
+	if get_distance(s1,s2) < 50:
+		obstacles.remove(s3)
+		s1.goto(-250, 0)
+		s2.goto(250, 0)
+		lives -= 1
+
+	if timer % 100 == 0:
+		y_position = random.randint(-250, 250)
+		s3 = create_sprite("golden-snitch", 300, y_position)
+		s3.setheading(0)
+		obstacles.append(s3)
+
+		for s2 in obstacles:
+			s2.forward(10)
+			if get_distance(s1,s3) < 40:
+				score += 2
+				s2.hideturtle()
+				obstacles.remove(s3)
 
 
 
 	window.update()
 
-	if get_distance(s1,s3) < 20:
-		s1.write("You Win!", font = ("Arial", 40, "normal"))
-		s2.hideturtle()
+	# Ending
+	if lives == 0:
+		print("You Lost!")
 		break
 
-	elif get_distance(s2,s3) < 20:
-		s2.write("You Lose!", font = ("Arial", 40, "normal"))
-		s1.hideturtle()
+	if score == 5:
+		print("You Won!")
+		break
+
+	if timer == 450:
+		print("Do Something!")
 		break
 	
-	elif timer == 60:
-		s3.write("You Lose!", font = ("Arial", 40, "normal"))
-
 print("Game Over")
