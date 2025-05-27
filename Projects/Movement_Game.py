@@ -31,26 +31,24 @@ s2 = create_sprite("bad (1)", 250, 0)
 set_background("pitch (1)")
 
 lives = 3
-s = 7
-b = 4
 score = 0
 
 # Section 3: Controls
 def move_up():
 	s1.setheading(90)
-	s1.forward(s)
+	s1.forward(7)
 
 def move_down():
 	s1.setheading(270)
-	s1.forward(s)
+	s1.forward(7)
 
 def move_right():
-	s1.setheading(180)
-	s1.forward(s)
+	s1.setheading(0)
+	s1.forward(7)
 
 def move_left():
-	s1.setheading(0)
-	s1.forward(s)
+	s1.setheading(180)
+	s1.forward(7)
 
 def cheat():
 	s1.goto(-250,0)
@@ -66,7 +64,7 @@ window.onkeypress(move_right, "d")
 window.onkeypress(move_up, "w")
 window.onkeypress(move_down, "s")
 window.onkeypress(cheat, "r")
-window.onkeypress(dash, "v")
+window.onkeypress(dash, "e")
 
 # Section 4: Game Loop
 window.listen()
@@ -75,11 +73,8 @@ obstacles = []
 while True:
 	time.sleep(0.1)
 	timer += 1  
-	
-	s2.setheading(math.atan2((s1.ycor()-s2.ycor()),(s1.xcor() - s1.ycor())))
-	s2.forward(b)
 
-	if get_distance(s1,s2) < 50:
+	if get_distance(s1,s2) < 20:
 		obstacles.remove(s3)
 		s1.goto(-250, 0)
 		s2.goto(250, 0)
@@ -88,17 +83,18 @@ while True:
 	if timer % 100 == 0:
 		y_position = random.randint(-250, 250)
 		s3 = create_sprite("golden-snitch", 300, y_position)
-		s3.setheading(0)
+		s3.setheading(180)
 		obstacles.append(s3)
 
-		for s2 in obstacles:
-			s2.forward(10)
-			if get_distance(s1,s3) < 40:
+		for s3 in obstacles:
+			s3.forward(10)
+			if get_distance(s1,s3) < 20:
 				score += 2
-				s2.hideturtle()
+				s3.hideturtle()
 				obstacles.remove(s3)
 
-
+	s2.setheading(math.atan2(s1.ycor() - s2.ycor(), s1.xcor() - s2.xcor()))
+	s2.forward(5)
 
 	window.update()
 
