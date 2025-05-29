@@ -41,9 +41,13 @@ t4 = create_sprite("dark_horse",x4,y4)
 
 # Section 4 - Racing
 for i in range(30):
-    x1 += random.randint(3,7+i)
+    # slowest at beginning but becomes the fastest later on
+    x1 += random.randint(5,7+i)
+    # slowest turtle
     x2 += random.randint(3,25)
+    # Tied for the fastest because it has the highest average
     x3 += random.randint(1,29)
+    # Tied for the fastest because it also has the highest average
     x4 += random.randint(0,30)
     
     t1.goto(x1, y1)

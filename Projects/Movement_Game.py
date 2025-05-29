@@ -74,8 +74,7 @@ while True:
 	time.sleep(0.1)
 	timer += 1  
 
-	if get_distance(s1,s2) < 20:
-		obstacles.remove(s3)
+	if get_distance(s1,s2) < 1:
 		s1.goto(-250, 0)
 		s2.goto(250, 0)
 		lives -= 1
@@ -86,14 +85,14 @@ while True:
 		s3.setheading(180)
 		obstacles.append(s3)
 
-		for s3 in obstacles:
-			s3.forward(10)
-			if get_distance(s1,s3) < 20:
-				score += 2
-				s3.hideturtle()
-				obstacles.remove(s3)
+	for s3 in obstacles:
+		s3.forward(10)
+		if get_distance(s1,s3) < 50:
+			score += 2
+			s3.hideturtle()
+			obstacles.remove(s3)
 
-	s2.setheading(math.atan2(s1.ycor() - s2.ycor(), s1.xcor() - s2.xcor()))
+	s2.setheading(180 / 3.14 * math.atan2(s1.ycor() - s2.ycor(), s1.xcor() - s2.xcor()))
 	s2.forward(5)
 
 	window.update()
@@ -107,7 +106,7 @@ while True:
 		print("You Won!")
 		break
 
-	if timer == 450:
+	if timer == 700:
 		print("Do Something!")
 		break
 	
